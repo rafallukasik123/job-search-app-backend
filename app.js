@@ -1,16 +1,13 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+require('dotenv').config()
+const express = require('express')
+const userRouter = require('./routers/user')
+const port = process.env.PORT
+require('./db/db')
+const app = express()
 
-var indexRouter = require('./routes/auth.routes');
-var usersRouter = require('./routes/user.routes');
+app.use(express.json())
+app.use(userRouter)
 
-var app = express();
-
-
-
-
-app.use('/users', usersRouter);
-
-module.exports = app;
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`)
+})

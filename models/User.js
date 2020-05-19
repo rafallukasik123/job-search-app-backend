@@ -4,33 +4,38 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 const userSchema = mongoose.Schema({
-    name: {
+    login: {
         type: String,
         required: true,
-        trim: true
-    },
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-        lowercase: true,
-        validate: value => {
-            if (!validator.isEmail(value)) {
-                throw new Error({error: 'Invalid Email address'})
-            }
-        }
+        unique: true
     },
     password: {
         type: String,
         required: true,
         minLength: 7
     },
+    role: {
+        type: String,
+        enum :['jobSeeker','employer']
+
+    },
     tokens: [{
         token: {
             type: String,
             required: true
         }
-    }]
+    }],
+    email: {
+        type: String,
+        required: true,
+        lowercase: true,
+        validate: value => {
+            if (!validator.isEmail(value)) {
+                throw new Error({error: 'Invalid Email address'})
+            }
+        }
+    }
+
 })
 
 userSchema.pre('save', async function (next) {
@@ -51,9 +56,9 @@ userSchema.methods.generateAuthToken = async function() {
     return token
 }
 
-userSchema.statics.findByCredentials = async (email, password) => {
+userSchema.statics.findByCredentials = async (login, password) => {
     // Search for a user by email and password.
-    const user = await User.findOne({ email} )
+    const user = await User.findOne({ login} )
     if (!user) {
         throw new Error({ error: 'Invalid login credentials' })
     }

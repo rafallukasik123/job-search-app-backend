@@ -34,7 +34,9 @@ const userSchema = mongoose.Schema({
                 throw new Error({error: 'Niepoprawny adres email.'})
             }
         }
-    }
+    },
+    img:
+        { data: Buffer, contentType: String }
 
 })
 

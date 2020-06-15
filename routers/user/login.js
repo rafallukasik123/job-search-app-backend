@@ -1,4 +1,5 @@
 
+
 const express = require('express')
 const User = require('../../models/User')
 const router = express.Router()
@@ -12,12 +13,11 @@ router.post('/user/login',async(req,res) => {
             return res.status(401).send(errorMessage.invalidLoginCredentials)
         }
         const token = await user.generateAuthToken()
-        res.send({ user, token })
+        let {role} = user;
+        res.send({login,password,role,token})
     } catch (error) {
         res.status(400).send(error.message)
     }
 })
-
-
 
 module.exports = router

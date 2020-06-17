@@ -9,7 +9,7 @@ router.post('/jobSeeker/createData',Auth,async(req,res) => {
     try {
         const jobSeeker = new JobSeeker(req.body)
         await jobSeeker.save()
-        res.status(201).send({ jobSeeker })
+        res.status(201).send()
     } catch (error) {
         res.status(400).send(errorMessages.createData)
     }

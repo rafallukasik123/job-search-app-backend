@@ -35,9 +35,6 @@ const jobSeekerDataSchema = mongoose.Schema({
         enum :['podstawowe','średnie','wyższe'],
         default: 'podstawowe'
 
-    },
-    announcements :{
-        type : Array,
     }
 })
 
